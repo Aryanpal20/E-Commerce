@@ -1,6 +1,7 @@
 package database
 
 import (
+	cart "e-Commerce/Models/Cart_Model"
 	cust "e-Commerce/Models/Customer_Model"
 	pro "e-Commerce/Models/Product_Model"
 	user "e-Commerce/Models/User_Model"
@@ -25,5 +26,5 @@ func DataMigration() {
 
 		panic("connection failed")
 	}
-	Database.AutoMigrate(user.User{}, pro.Product{}, pro.Store{}, pro.Category{}, cust.Customer{})
+	Database.AutoMigrate(user.User{}, pro.Product{}, pro.Store{}, pro.Category{}, cust.Customer{}, cart.Cart{})
 }

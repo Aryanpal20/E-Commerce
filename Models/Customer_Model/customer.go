@@ -1,5 +1,7 @@
 package customermodel
 
+// import cart "e-Commerce/Models/Cart_Model"
+
 type Customer struct {
 	ID                      int    `json:"id"`
 	Product_Id              int    `json:"product_id"`
@@ -12,4 +14,5 @@ type Customer struct {
 	Quantity_wise_Rate      int    `json:"quantity_wise_rate"`
 	Stock                   string `json:"stock"`
 	Customer_Id             int    `json:"customer_id"`
+	// Carts                   []cart.Cart `gorm:"ForeignKey:Userid"`
 }

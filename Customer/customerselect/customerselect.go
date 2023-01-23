@@ -7,6 +7,7 @@ import (
 	user "e-Commerce/Models/User_Model"
 	"e-Commerce/database"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -22,7 +23,9 @@ func Customer_Select(w http.ResponseWriter, r *http.Request) {
 		var pro pro.Product
 		json.NewDecoder(r.Body).Decode(&cust)
 		database.Database.Where("id = ?", cust.Product_Id).Find(&pro)
+		fmt.Println(pro)
 		database.Database.Where("id = ?", cust.Customer_Id).Find(&user)
+		fmt.Println(user)
 		cust.Customer_First_Name = user.First_Name
 		cust.Customer_Last_Name = user.Last_Name
 		cust.Customer_Phone_No = user.Phone

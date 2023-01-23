@@ -1,6 +1,9 @@
 package productmodel
 
-import customer "e-Commerce/Models/Customer_Model"
+import (
+	cart "e-Commerce/Models/Cart_Model"
+	customer "e-Commerce/Models/Customer_Model"
+)
 
 type Store struct {
 	ID            int        `json:"id"`
@@ -24,4 +27,5 @@ type Product struct {
 	Product_Quantity int                 `json:"product_quantity"`
 	Category_Id      int                 `json:"category_id"`
 	Customers        []customer.Customer `gorm:"ForeignKey:Product_Id"`
+	Carts            []cart.Cart         `gorm:"ForeignKey:ProductId"`
 }
