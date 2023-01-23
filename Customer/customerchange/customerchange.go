@@ -29,9 +29,6 @@ func CustomerChange(w http.ResponseWriter, r *http.Request) {
 		database.Database.Where("customer_id = ?", user.ID).Find(&cust)
 		fmt.Println(cust)
 		database.Database.Where("id = ?", cust.Product_Id).Find(&pro)
-		// fmt.Println(user)
-		// fmt.Println(user.Email)
-		// fmt.Println(email)
 		if email == user.Email {
 
 			json.NewDecoder(r.Body).Decode(&cust)
