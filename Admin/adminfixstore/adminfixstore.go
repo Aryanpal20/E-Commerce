@@ -16,7 +16,7 @@ func StoreAminAccess(w http.ResponseWriter, r *http.Request) {
 	token := strings.Split(r.Header["Token"][0], " ")[1]
 	role := role.Is_manager(token)
 	// email := tokenEmail
-	// var product_name string
+	var err entity.Error
 	var store pro.Store
 	var user entity.User
 	// here we can compare with manager
@@ -28,7 +28,7 @@ func StoreAminAccess(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(store)
 
 	} else {
-		err := "you can't access !!!"
+		err = entity.Error{Message: "you can't access !!!"}
 		w.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(w).Encode(err)
 	}

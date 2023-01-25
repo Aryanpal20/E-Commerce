@@ -9,10 +9,12 @@ import (
 	register "e-Commerce/Auth/register"
 	cust1 "e-Commerce/Customer/customerchange"
 	del "e-Commerce/Customer/customerdelete"
+	order "e-Commerce/Customer/customerorder"
 	cust "e-Commerce/Customer/customerselect"
 	prod "e-Commerce/Vendor/vendorchangesproductvalue"
 	pro "e-Commerce/Vendor/vendorfixproduct"
-	cart "e-Commerce/cart/cartcreate"
+	cartwithlogin "e-Commerce/cart/cartcreatewithlogin"
+	cartwithoutlogin "e-Commerce/cart/cartcreatewithoutlogin"
 	"log"
 	"net/http"
 
@@ -34,7 +36,9 @@ func HandlerRouting() {
 	r.HandleFunc("/post/customer", cust.Customer_Select).Methods("POST")
 	r.HandleFunc("/update/customer/{customer_id}", cust1.CustomerChange).Methods("PUT")
 	r.HandleFunc("/delete/customer/{customer_id}", del.CustomerDelete).Methods("DELETE")
-	r.HandleFunc("/addtocart", cart.AddToCart).Methods("POST")
+	r.HandleFunc("/addtocart", cartwithlogin.AddToCart).Methods("POST")
+	r.HandleFunc("/addtocartwithoutlogin", cartwithoutlogin.AddToCartWithoutLogin).Methods("POST")
+	r.HandleFunc("/customerorder", order.Customer_Order).Methods("POST")
 
 	log.Fatal(http.ListenAndServe(":8000", r))
 

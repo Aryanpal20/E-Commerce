@@ -21,11 +21,13 @@ type Category struct {
 }
 
 type Product struct {
-	ID               int                 `json:"id"`
-	Product_Name     string              `json:"product_name"`
-	Product_Rate     int                 `json:"product_rate"`
-	Product_Quantity int                 `json:"product_quantity"`
-	Category_Id      int                 `json:"category_id"`
-	Customers        []customer.Customer `gorm:"ForeignKey:Product_Id"`
-	Carts            []cart.Cart         `gorm:"ForeignKey:ProductId"`
+	ID               int    `json:"id"`
+	Product_Name     string `json:"product_name"`
+	Product_Rate     int    `json:"product_rate"`
+	Product_Quantity int    `json:"product_quantity"`
+	Category_Id      int    `json:"category_id"`
+	// Category Category ``
+	Customers []customer.Customer `gorm:"ForeignKey:Product_Id"`
+	Carts     []cart.Cart         `gorm:"ForeignKey:ProductId"`
+	// Orders    []order.Order       `gorm:"ForeignKey:Product_Id"`
 }

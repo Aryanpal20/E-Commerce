@@ -3,6 +3,7 @@ package vendorchangesproductvalue
 import (
 	role "e-Commerce/FetchOnlyOneData/fetchrole"
 	pro "e-Commerce/Models/Product_Model"
+	user "e-Commerce/Models/User_Model"
 	"e-Commerce/database"
 	"encoding/json"
 	"fmt"
@@ -17,7 +18,7 @@ func ProductUpdateByVendor(w http.ResponseWriter, r *http.Request) {
 	// here we can split the token and decode the tokens
 	token := strings.Split(r.Header["Token"][0], " ")[1]
 	role := role.Is_manager(token)
-
+	var err user.Error
 	// here we can compare with manager
 	if role == "vendor" {
 		var product pro.Product
@@ -38,7 +39,7 @@ func ProductUpdateByVendor(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(product)
 
 	} else {
-		err := "you can't access !!!"
+		err = user.Error{Message: "you can't access !!!"}
 		w.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(w).Encode(err)
 	}

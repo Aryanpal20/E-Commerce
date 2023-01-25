@@ -3,6 +3,7 @@ package vendoraccess
 import (
 	role "e-Commerce/FetchOnlyOneData/fetchrole"
 	pro "e-Commerce/Models/Product_Model"
+	user "e-Commerce/Models/User_Model"
 	"e-Commerce/database"
 	"encoding/json"
 	"net/http"
@@ -16,6 +17,7 @@ func ProductVendorAccess(w http.ResponseWriter, r *http.Request) {
 	role := role.Is_manager(token)
 	var product pro.Product
 	var store pro.Store
+	var err user.Error
 	// here we can compare with manager
 	if role == "vendor" {
 		json.NewDecoder(r.Body).Decode(&product)
@@ -25,7 +27,7 @@ func ProductVendorAccess(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(product)
 
 	} else {
-		err := "you can't access !!!"
+		err = user.Error{Message: "you can't access !!!"}
 		w.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(w).Encode(err)
 	}

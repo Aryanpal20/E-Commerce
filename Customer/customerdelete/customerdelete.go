@@ -4,7 +4,7 @@ import (
 	email "e-Commerce/FetchOnlyOneData/fetchemail"
 	role "e-Commerce/FetchOnlyOneData/fetchrole"
 	cust "e-Commerce/Models/Customer_Model"
-	user "e-Commerce/Models/User_Model"
+	users "e-Commerce/Models/User_Model"
 	"e-Commerce/database"
 	"encoding/json"
 	"fmt"
@@ -20,18 +20,21 @@ func CustomerDelete(w http.ResponseWriter, r *http.Request) {
 	email := email.Task_creator(token)
 	role := role.Is_manager(token)
 	if role == "customer" {
-		var user user.User
+		var err users.Error
+		var user users.User
 		database.Database.First(&user, mux.Vars(r)["customer_id"])
 		fmt.Println(user)
 		if email == user.Email {
 			var cust cust.Customer
 			database.Database.Where("customer_id = ?", user.ID).Delete(&cust)
 			fmt.Println(cust)
-			del := "your order will be deleted"
-			json.NewEncoder(w).Encode(del)
+			err = users.Error{Message: "your order will be deleted"}
+			json.NewEncoder(w).Encode(err)
+			w.WriteHeader(http.StatusOK)
 		} else {
-			del := "you can't delete another's data"
-			json.NewEncoder(w).Encode(del)
+			err = users.Error{Message: "you can't delete another's data"}
+			json.NewEncoder(w).Encode(err)
+			w.WriteHeader(http.StatusBadRequest)
 		}
 
 	}

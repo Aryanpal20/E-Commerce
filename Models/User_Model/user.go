@@ -5,6 +5,9 @@ import (
 	store "e-Commerce/Models/Product_Model"
 )
 
+type Error struct {
+	Message string `json:"Message"`
+}
 type User struct {
 	ID         int                 `json:"id"`
 	Email      string              `json:"email"`
@@ -16,4 +19,5 @@ type User struct {
 	Role       string              `json:"role"`
 	Stores     []store.Store       `gorm:"ForeignKey:Vendor_Id"`
 	Customers  []customer.Customer `gorm:"ForeignKey:Customer_Id"`
+	// Orders     []order.Order       `gorm:"ForeignKey:Userid"`
 }

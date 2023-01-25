@@ -30,6 +30,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	password := r.FormValue("password")
 
 	var users = entity.User{}
+	var error entity.Error
 	// here we will search the data from database
 	database.Database.Where("email = ?", email).First(&users)
 	// here we will compare the password with hash password
@@ -54,13 +55,16 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		tokenString, error := token.SignedString(JwtKey)
 		json.NewEncoder(w).Encode(jwtToken{Token: tokenString})
 		json.NewEncoder(w).Encode(users)
+		w.WriteHeader(http.StatusAccepted)
 		if error != nil {
 			fmt.Println(error)
 		}
 
 	}
 	if err != nil {
+		error = entity.Error{Message: "user i'd and password does not exist"}
 		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(error)
 		return
 	}
 
