@@ -5,6 +5,7 @@ import (
 	"gin/database"
 	entity "gin/models/user_model"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -55,6 +56,10 @@ func Register(c *gin.Context) {
 	}
 	user := entity.User{Email: input.Email, Password: input.Password, First_Name: input.First_Name, Last_Name: input.Last_Name, Role: input.Role, CreatedAT: time.Now()}
 
+	if !strings.Contains(user.Email, "@") {
+		c.JSON(400, gin.H{"MESSAGE": "Enter email Format"})
+		return
+	}
 	database.Database.Where("email = ?", user.Email).First(&users)
 
 	if users.Email != user.Email {
@@ -68,8 +73,8 @@ func Register(c *gin.Context) {
 		user.Password = string(hashedPassword)
 		fmt.Println("ABCD", user.Password)
 
-		database.Database.Create(&user)
-		c.JSON(http.StatusOK, gin.H{"Data": "registration successfully"})
+		// database.Database.Create(&user)
+		c.JSON(http.StatusOK, gin.H{"Data": "registration successfully", "Msg": user})
 	} else {
 		fmt.Println("djvbdshvbhk")
 		c.JSON(http.StatusBadRequest, gin.H{"error": "This email already exist"})
